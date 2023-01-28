@@ -41,7 +41,7 @@ const indexRadioChange = (flag: boolean) => {
 </script>
 
 <template>
-  <el-drawer v-model="settingStore.settingShow" direction="rtl" size="360px">
+  <ElDrawer v-model="settingStore.settingShow" direction="rtl" size="360px">
     <template #header>
       <h2 class="setting-title">
         设置
@@ -56,14 +56,14 @@ const indexRadioChange = (flag: boolean) => {
           是否进行自动适配<span class="setting_label_tip">(默认分辨率1920*1080)</span>:
         </span>
         <div class="setting_content">
-          <el-radio-group v-model="isScaleRadio" @change="isScaleChange">
-            <el-radio :label="true">
+          <ElRadioGroup v-model="isScaleRadio" @change="isScaleChange">
+            <ElRadio :label="true">
               是
-            </el-radio>
-            <el-radio :label="false">
+            </ElRadio>
+            <ElRadio :label="false">
               否
-            </el-radio>
-          </el-radio-group>
+            </ElRadio>
+          </ElRadioGroup>
         </div>
       </div>
       <div class="left_shu">
@@ -74,33 +74,33 @@ const indexRadioChange = (flag: boolean) => {
           传感器提醒自动轮询: <span class="setting_label_tip" />
         </span>
         <div class="setting_content">
-          <el-radio-group
+          <ElRadioGroup
             v-model="leftBottomRadio"
             @change="indexRadioChange"
           >
-            <el-radio :label="true">
+            <ElRadio :label="true">
               是
-            </el-radio>
-            <el-radio :label="false">
+            </ElRadio>
+            <ElRadio :label="false">
               否
-            </el-radio>
-          </el-radio-group>
+            </ElRadio>
+          </ElRadioGroup>
         </div>
       </div>
       <div class="setting_item">
         <span class="setting_label"> 实时预警轮播: </span>
         <div class="setting_content">
-          <el-radio-group
+          <ElRadioGroup
             v-model="rightBottomRadio"
             @change="indexRadioChange"
           >
-            <el-radio :label="true">
+            <ElRadio :label="true">
               是
-            </el-radio>
-            <el-radio :label="false">
+            </ElRadio>
+            <ElRadio :label="false">
               否
-            </el-radio>
-          </el-radio-group>
+            </ElRadio>
+          </ElRadioGroup>
         </div>
       </div>
       <div class="left_shu">
@@ -111,21 +111,21 @@ const indexRadioChange = (flag: boolean) => {
           红绿灯时长<span class="setting_label_tip" />:
         </span>
         <div class="setting_content">
-          <el-input v-model="redTime" placeholder="请输入时长" />
+          <ElInput v-model="redTime" placeholder="请输入时长" />
         </div>
       </div>
     </template>
     <template #footer>
       <div style="flex: auto">
-        <el-button @click="cancelClick">
+        <ElButton @click="cancelClick">
           取消
-        </el-button>
-        <el-button type="primary" @click="confirmClick">
+        </ElButton>
+        <ElButton type="primary" @click="confirmClick">
           确定
-        </el-button>
+        </ElButton>
       </div>
     </template>
-  </el-drawer>
+  </ElDrawer>
 </template>
 
 <style scoped lang="scss">

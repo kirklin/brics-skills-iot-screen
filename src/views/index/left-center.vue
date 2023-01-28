@@ -152,7 +152,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-chart class="chart" :option="option" />
+  <VChart class="chart" :option="option" />
 </template>
 
 <style scoped lang="scss"></style>

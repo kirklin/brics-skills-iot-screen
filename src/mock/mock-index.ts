@@ -179,7 +179,8 @@ export default [
         [`category|${num}`]: ["@city()"],
         [`barData|${num}`]: ["@integer(10, 100)"],
       });
-      const lineData = []; const rateData = [];
+      const lineData = [];
+      const rateData = [];
       for (let index = 0; index < num; index++) {
         const lineNum = Mock.mock("@integer(0, 100)") + a.barData[index];
         lineData.push(lineNum);
@@ -234,4 +235,3 @@ export default [
     },
   },
 ];
-

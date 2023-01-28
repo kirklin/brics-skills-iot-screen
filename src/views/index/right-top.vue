@@ -224,7 +224,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-chart
+  <VChart
     v-if="JSON.stringify(option) !== '{}'"
     class="chart"
     :option="option"

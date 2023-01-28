@@ -87,7 +87,7 @@ const mapClick = (params: any) => {
       <div v-if="code !== 'china'" class="quanguo" @click="getData('china')">
         中国
       </div>
-      <v-chart
+      <VChart
         v-if="JSON.stringify(option) !== '{}'"
         ref="centerMapRef"
         class="chart"

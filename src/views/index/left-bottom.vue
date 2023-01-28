@@ -54,7 +54,7 @@ onMounted(() => {
 
 <template>
   <div class="left_bottom_wrap beautify-scroll-def" :class="{ 'overflow-y-auto': !indexConfig.leftBottomSwiper }">
-    <component
+    <Component
       :is="comName"
       v-model="state.scroll"
       :list="state.list"
@@ -99,7 +99,7 @@ onMounted(() => {
           </div>
         </li>
       </ul>
-    </component>
+    </Component>
   </div>
 </template>
 
