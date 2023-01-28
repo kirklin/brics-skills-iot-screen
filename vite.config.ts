@@ -40,11 +40,11 @@ export default defineConfig((): UserConfig => {
       }),
     ],
     publicDir: "public",
-    base: "./",
+    base: "/",
     server: {
-      host: "0.0.0.0",
-      port: 8112,
-      open: false,
+      host: "localhost",
+      port: 8888,
+      open: true,
       strictPort: false,
       // proxy: {}
     },
