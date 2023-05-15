@@ -5,6 +5,7 @@ import vue from "@vitejs/plugin-vue";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+import UnoCSS from "unocss/vite";
 
 // https://github.com/element-plus/unplugin-element-plus/blob/HEAD/README.zh-CN.md
 import ElementPlus from "unplugin-element-plus/vite";
@@ -40,6 +41,14 @@ export default defineConfig((): UserConfig => {
       ElementPlus({
       // useSource: true
       }),
+
+      // https://github.com/unocss/unocss
+      // see unocss.config.ts for config
+      UnoCSS(
+        {
+          configFile: resolve(__dirname, "unocss.config.ts"),
+        },
+      ),
     ],
     publicDir: "public",
     base: "/",

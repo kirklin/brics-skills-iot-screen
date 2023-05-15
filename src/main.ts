@@ -4,8 +4,10 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
 
+// reset css
+import "@kirklin/reset-css/kirklin.css";
 import "@/assets/css/main.scss";
-import "@/assets/css/tailwind.css";
+import "uno.css";
 
 import { registerEcharts } from "@/plugins/echarts";
 
