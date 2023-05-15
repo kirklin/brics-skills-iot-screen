@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { nextTick, reactive, ref } from "vue";
+import { nextTick, ref } from "vue";
 import { getMap, registerMap } from "echarts/core";
 import { optionHandle, regionCodes } from "./center.map";
 import type { MapdataType } from "./center.map";
 import { GETNOBASE, currentGET } from "@/api";
+
 // china 代表中国 其他地市是行政编码
 withDefaults(
   defineProps<{

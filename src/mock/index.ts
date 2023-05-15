@@ -1,6 +1,7 @@
 import Mock from "mockjs";
 import type { MockParams } from "./index.d";
 import MockIndex from "./mock-index";
+
 Mock.setup({
   timeout: "300",
 });

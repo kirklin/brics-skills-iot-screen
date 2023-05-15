@@ -2,6 +2,7 @@
 import { onMounted, reactive, ref } from "vue";
 import { currentGET } from "@/api";
 import CountUp from "@/components/count-up";
+
 const duration = ref(2);
 const state = reactive({
   alarmNum: 0,

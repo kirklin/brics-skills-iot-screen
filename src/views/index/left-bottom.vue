@@ -5,6 +5,7 @@ import { currentGET } from "@/api";
 import SeamlessScroll from "@/components/seamless-scroll";
 import { useSettingStore } from "@/stores";
 import EmptyCom from "@/components/empty-com";
+
 const settingStore = useSettingStore();
 const { defaultOption, indexConfig } = storeToRefs(settingStore);
 const state = reactive<any>({

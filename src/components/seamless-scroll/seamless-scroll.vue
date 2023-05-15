@@ -9,6 +9,7 @@ import {
 } from "vue";
 import type { CSSProperties } from "vue";
 import throttle from "lodash/throttle";
+
 interface propsType {
   modelValue?: boolean;
   list: Array<any>;

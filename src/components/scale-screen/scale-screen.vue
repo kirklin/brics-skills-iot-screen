@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import type { CSSProperties, PropType } from "vue";
+
 const props = defineProps({
   width: {
     type: [String, Number] as PropType<string | number>,

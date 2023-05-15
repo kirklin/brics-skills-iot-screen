@@ -1,12 +1,14 @@
-import { resolve } from "path";
+import { resolve } from "node:path";
 import type { UserConfig } from "vite";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+
 // https://github.com/element-plus/unplugin-element-plus/blob/HEAD/README.zh-CN.md
 import ElementPlus from "unplugin-element-plus/vite";
+
 export default defineConfig((): UserConfig => {
   // const env = loadEnv(mode, process.cwd(), '')
   return {

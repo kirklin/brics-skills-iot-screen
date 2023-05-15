@@ -2,6 +2,7 @@
 import { onMounted, ref } from "vue";
 import { graphic } from "echarts/core";
 import { currentGET } from "@/api";
+
 const option = ref({});
 
 const setOption = async (xData: any[], yData: any[], yData2: any[]) => {

@@ -2,6 +2,7 @@
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import { CountUp } from "countup.js";
 import type { CountUpOptions } from "countup.js";
+
 const props = withDefaults(
   defineProps<{
     // 结束数值
