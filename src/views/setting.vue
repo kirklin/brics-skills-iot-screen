@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useSettingStore } from "@/stores/index";
+import { useSettingStore } from "~/stores/index";
 
 const isScaleRadio = ref(false);
 const leftBottomRadio = ref(true);

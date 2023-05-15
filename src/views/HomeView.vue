@@ -3,9 +3,9 @@ import { RouterView } from "vue-router";
 import { storeToRefs } from "pinia";
 import Headers from "./header.vue";
 import Setting from "./setting.vue";
-import ScaleScreen from "@/components/scale-screen";
-import { useSettingStore } from "@/stores";
-import MessageContent from "@/components/Plugins/MessageContent";
+import ScaleScreen from "~/components/scale-screen";
+import { useSettingStore } from "~/stores";
+import MessageContent from "~/components/Plugins/MessageContent";
 
 const settingStore = useSettingStore();
 const { isScale } = storeToRefs(settingStore);
@@ -40,7 +40,7 @@ const wrapperStyle = {};
   height: 100%;
   padding: 16px 16px 16px 16px;
   box-sizing: border-box;
-  background-image: url("@/assets/img/pageBg.png");
+  background-image: url("~/assets/img/pageBg.png");
   background-size: cover;
   background-position: center center;
 }

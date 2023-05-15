@@ -7,7 +7,7 @@ import CenterBottom from "./center-bottom.vue";
 import RightTop from "./right-top.vue";
 import RightCenter from "./right-center.vue";
 import RightBottom from "./right-bottom.vue";
-import ItemWrap from "@/components/item-wrap";
+import ItemWrap from "~/components/item-wrap";
 </script>
 
 <template>

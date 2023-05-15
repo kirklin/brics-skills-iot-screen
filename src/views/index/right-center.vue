@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import CapsuleChart from "@/components/datav/capsule-chart";
-import { currentGET } from "@/api";
+import CapsuleChart from "~/components/datav/capsule-chart";
+import { currentGET } from "~/api";
 
 const config = ref({
   showValue: true,

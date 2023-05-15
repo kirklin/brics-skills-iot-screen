@@ -49,7 +49,7 @@ $item_title_content-height: calc(100% - 38px);
   .you {
     width: 58px;
     height: 14px;
-    background-image: url("@/assets/img/titles/zuo.png");
+    background-image: url("~/assets/img/titles/zuo.png");
   }
 
   .you {

@@ -1,6 +1,6 @@
 // 处理路径传参
 import Mock from "mockjs";
-import { parameteUrl } from "@/utils/query-param";
+import { parameteUrl } from "~/utils/query-param";
 
 function ArrSet(Arr: any[], id: string): any[] {
   const obj: any = {};

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
 import { graphic } from "echarts/core";
-import { currentGET } from "@/api";
+import { currentGET } from "~/api";
 
 const colors = ["#0BFC7F", "#A0A0A0", "#F48C02", "#F4023C"];
 const option = ref({});

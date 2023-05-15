@@ -2,8 +2,8 @@ import axios from "axios";
 
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
 import UtilVar from "../config/UtilVar";
-import { RequestEnum, StorageEnum } from "@/enums";
-import { getLocalStorage } from "@/utils";
+import { RequestEnum, StorageEnum } from "~/enums";
+import { getLocalStorage } from "~/utils";
 
 const baseUrl = UtilVar.baseUrl;
 const CancelToken = axios.CancelToken;

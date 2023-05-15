@@ -6,13 +6,12 @@ import router from "./router";
 
 // reset css
 import "@kirklin/reset-css/kirklin.css";
-import "@/assets/css/main.scss";
+import "~/assets/css/main.scss";
 import "uno.css";
 
-import { registerEcharts } from "@/plugins/echarts";
-
 // 不使用mock 请注释掉
-import { mockXHR } from "@/mock/index";
+import { registerEcharts } from "~/plugins/echarts";
+import { mockXHR } from "~/mock/index";
 
 mockXHR();
 

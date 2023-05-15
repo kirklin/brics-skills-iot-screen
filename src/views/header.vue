@@ -2,7 +2,8 @@
 import { reactive } from "vue";
 import dayjs from "dayjs";
 import type { DateDataType } from "./index.d";
-import { useSettingStore } from "@/stores";
+import { useSettingStore } from "~/stores";
+import settingPng from "~/assets/img/headers/setting.png";
 
 const dateData = reactive<DateDataType>({
   dateDay: "",
@@ -36,7 +37,7 @@ timeFn();
       {{ dateData.dateYear }} {{ dateData.dateWeek }} {{ dateData.dateDay }}
 
       <div class="setting_icon" @click="setSettingShow(true)">
-        <img src="@/assets/img/headers/setting.png" alt="设置">
+        <img :src="settingPng" alt="设置">
       </div>
     </div>
   </div>

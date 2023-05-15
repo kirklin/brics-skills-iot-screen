@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { graphic } from "echarts/core";
-import { currentGET } from "@/api";
+import { currentGET } from "~/api";
 
 const option = ref({});
 

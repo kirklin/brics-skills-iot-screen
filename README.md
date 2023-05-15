@@ -115,7 +115,7 @@ pnpm run dev
 ```javascript
 // src\main.ts文件
 把下面两行代码注释掉就可以了
-import { mockXHR } from "@/mock/index";
+import { mockXHR } from "~/mock/index";
 mockXHR()
 ```
 

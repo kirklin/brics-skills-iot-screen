@@ -3,7 +3,7 @@ import { nextTick, ref } from "vue";
 import { getMap, registerMap } from "echarts/core";
 import { optionHandle, regionCodes } from "./center.map";
 import type { MapdataType } from "./center.map";
-import { GETNOBASE, currentGET } from "@/api";
+import { GETNOBASE, currentGET } from "~/api";
 
 // china 代表中国 其他地市是行政编码
 withDefaults(
@@ -134,11 +134,11 @@ const mapClick = (params: any) => {
     }
 
     .zuo {
-      background: url("@/assets/img/xiezuo.png") no-repeat;
+      background: url("~/assets/img/xiezuo.png") no-repeat;
     }
 
     .you {
-      background: url("@/assets/img/xieyou.png") no-repeat;
+      background: url("~/assets/img/xieyou.png") no-repeat;
     }
   }
 

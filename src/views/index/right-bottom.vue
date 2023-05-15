@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive } from "vue";
 import { storeToRefs } from "pinia";
-import { currentGET } from "@/api";
-import SeamlessScroll from "@/components/seamless-scroll";
-import { useSettingStore } from "@/stores";
-import EmptyCom from "@/components/empty-com";
+import { currentGET } from "~/api";
+import SeamlessScroll from "~/components/seamless-scroll";
+import { useSettingStore } from "~/stores";
+import EmptyCom from "~/components/empty-com";
 
 const settingStore = useSettingStore();
 const { defaultOption, indexConfig } = storeToRefs(settingStore);
@@ -148,7 +148,7 @@ onMounted(() => {
         position: absolute;
         height: 2px;
         width: 104%;
-        background-image: url("@/assets/img/left_dotted_line.png");
+        background-image: url("~/assets/img/left_dotted_line.png");
         bottom: -12px;
         left: -2%;
         background-size: cover;

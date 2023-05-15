@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import mockLight from "@/assets/model/mockLight.mp4";
+import mockLight from "~/assets/model/mockLight.mp4";
 </script>
 
 <template>

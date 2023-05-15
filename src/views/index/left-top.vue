@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
-import { currentGET } from "@/api";
-import CountUp from "@/components/count-up";
+import { currentGET } from "~/api";
+import CountUp from "~/components/count-up";
 
 const duration = ref(2);
 const state = reactive({
@@ -102,25 +102,25 @@ onMounted(() => {
 
     .AllNum {
       &::before {
-        background-image: url("@/assets/img/left_top_lan.png");
+        background-image: url("~/assets/img/left_top_lan.png");
       }
     }
 
     .online {
       &::before {
-        background-image: url("@/assets/img/left_top_lv.png");
+        background-image: url("~/assets/img/left_top_lv.png");
       }
     }
 
     .offline {
       &::before {
-        background-image: url("@/assets/img/left_top_huang.png");
+        background-image: url("~/assets/img/left_top_huang.png");
       }
     }
 
     .laramNum {
       &::before {
-        background-image: url("@/assets/img/left_top_hong.png");
+        background-image: url("~/assets/img/left_top_hong.png");
       }
     }
   }
