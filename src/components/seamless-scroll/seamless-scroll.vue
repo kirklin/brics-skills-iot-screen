@@ -70,7 +70,6 @@ interface Emits {
   (event: "count", _count: number): void;
   (event: "stop", _count: number): void;
 }
-const scrollRef = ref(null);
 const slotListRef = ref<HTMLDivElement | null>(null);
 const realBoxRef = ref<HTMLDivElement | null>(null);
 const reqFrame = ref<number | null>(null);

@@ -15,16 +15,17 @@ withDefaults(
     title: "地图",
   },
 );
+const CHINA_CODE = "china";
+
 const option = ref({});
-const code = ref("china");
+const code = ref(CHINA_CODE);
+
 const getGeoJson = async (regionCode: string) => {
   let mapjson = getMap(regionCode);
   if (mapjson) {
     mapjson = mapjson.geoJSON;
   } else {
-    mapjson = await GETNOBASE(`map-geojson/${regionCode}.json`).then(
-      data => data,
-    );
+    mapjson = await GETNOBASE(`map-geojson/${regionCode}.json`).then(data => data);
     code.value = regionCode;
     registerMap(regionCode, {
       geoJSON: mapjson as any,
@@ -33,16 +34,16 @@ const getGeoJson = async (regionCode: string) => {
   }
   return mapjson;
 };
+
 const dataSetHandle = async (regionCode: string, list: object[]) => {
   const geojson: any = await getGeoJson(regionCode);
   const cityCenter: any = {};
   const mapData: MapdataType[] = [];
-  // 获取当前地图每块行政区中心点
+
   geojson.features.forEach((element: any) => {
-    cityCenter[element.properties.name]
-      = element.properties.centroid || element.properties.center;
+    cityCenter[element.properties.name] = element.properties.centroid || element.properties.center;
   });
-  // 当前中心点如果有此条数据中心点则赋值x，y当然这个x,y也可以后端返回进行大点，前端省去多行代码
+
   list.forEach((item: any) => {
     if (cityCenter[item.name]) {
       mapData.push({
@@ -51,13 +52,13 @@ const dataSetHandle = async (regionCode: string, list: object[]) => {
       });
     }
   });
+
   await nextTick();
   option.value = optionHandle(regionCode, list, mapData);
 };
 
 const getData = async (regionCode: string) => {
   currentGET("centerMap", { regionCode }).then((res) => {
-    // console.log("centerMap", res);
     if (res.success) {
       dataSetHandle(res.data.regionCode, res.data.dataList);
     }
@@ -67,7 +68,6 @@ const getData = async (regionCode: string) => {
 getData(code.value);
 
 const mapClick = (params: any) => {
-  // console.log(params);
   const xzqData = regionCodes[params.name];
   if (xzqData) {
     getData(xzqData.adcode);
@@ -79,18 +79,12 @@ const mapClick = (params: any) => {
 
 <template>
   <div class="centerMap">
-    <!-- <div class="mapTitle">
-      <div class="zuo"></div>
-      <span class="titleText">{{ title }}</span>
-      <div class="you"></div>
-    </div> -->
     <div class="mapWrap">
-      <div v-if="code !== 'china'" class="quanguo" @click="getData('china')">
+      <div v-if="code !== CHINA_CODE" class="quanguo" @click="getData(CHINA_CODE)">
         中国
       </div>
       <VChart
         v-if="JSON.stringify(option) !== '{}'"
-        ref="centerMapRef"
         class="chart"
         :option="option"
         @click="mapClick"
@@ -103,57 +97,16 @@ const mapClick = (params: any) => {
 .centerMap {
   margin-bottom: 30px;
 
-  .mapTitle {
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    padding-top: 10px;
-    box-sizing: border-box;
-
-    .titleText {
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: 6px;
-      background: linear-gradient(
-        92deg,
-        #0072ff 0%,
-        #00eaff 48.8525390625%,
-        #01aaff 100%
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin: 0 10px;
-    }
-
-    .zuo,
-    .you {
-      background-size: 100% 100%;
-      width: 29px;
-      height: 20px;
-      margin-top: 8px;
-    }
-
-    .zuo {
-      background: url("~/assets/img/xiezuo.png") no-repeat;
-    }
-
-    .you {
-      background: url("~/assets/img/xieyou.png") no-repeat;
-    }
-  }
-
   .mapWrap {
     height: 580px;
     width: 100%;
-    // padding: 0 0 10px 0;
     box-sizing: border-box;
     position: relative;
 
     .quanguo {
       position: absolute;
       right: 20px;
-    //   top: -46px;
-    top: 0;
+      top: 0;
       width: 80px;
       height: 28px;
       border: 1px solid #00eded;
@@ -164,8 +117,8 @@ const mapClick = (params: any) => {
       letter-spacing: 6px;
       cursor: pointer;
       box-shadow: 0 2px 4px rgba(0, 237, 237, 0.5),
-        0 0 6px rgba(0, 237, 237, 0.4);
-        z-index: 10;
+      0 0 6px rgba(0, 237, 237, 0.4);
+      z-index: 10;
     }
   }
 }

@@ -2,51 +2,32 @@
 import Mock from "mockjs";
 import { parameteUrl } from "~/utils/query-param";
 
-function ArrSet(Arr: any[], id: string): any[] {
+// 生成不重复的对象数组
+function removeDuplicates(arr: any[], id: string): any[] {
   const obj: any = {};
-  return Arr.reduce((setArr, item) => {
+  return arr.reduce((setArr, item) => {
     if (!obj[item[id]]) {
       obj[item[id]] = setArr.push(item);
     }
     return setArr;
   }, []);
 }
-/**
-* @description: min ≤ r ≤ max  随机数
-* @param {*} Min
-* @param {*} Max
-* @return {*}
-*/
-function RandomNumBoth(Min: any, Max: any) {
-  const Range = Max - Min;
-  const Rand = Math.random();
+
+// 随机生成 min ≤ r ≤ max 的整数
+function randomNumBoth(min: number, max: number): number {
+  const range = max - min;
+  const rand = Math.random();
   // 四舍五入
-  return Min + Math.round(Rand * Range);
+  return min + Math.round(rand * range);
 }
-// 左中
+
 export default [
+  // 左上
   {
     url: "/IoTScreen/countUserNum",
     type: "get",
     response: () => {
-      const a = Mock.mock({
-        success: true,
-        data: {
-          offlineNum: "@integer(00, 10)",
-          alarmNum: "@integer(20, 50)",
-          lockNum: "@integer(10, 20)",
-          totalNum: 368,
-        },
-      });
-      a.data.onlineNum = a.data.totalNum - a.data.offlineNum - a.data.lockNum - a.data.alarmNum;
-      return a;
-    },
-  },
-  {
-    url: "/IoTScreen/countDeviceNum",
-    type: "get",
-    response: () => {
-      const a = Mock.mock({
+      const data = Mock.mock({
         success: true,
         data: {
           alarmNum: "@integer(1, 600)",
@@ -54,16 +35,16 @@ export default [
           totalNum: 480,
         },
       });
-      a.data.onlineNum = a.data.totalNum - a.data.offlineNum;
-      return a;
+      data.data.onlineNum = data.data.totalNum - data.data.offlineNum;
+      return data;
     },
   },
-  // 左下
+  // 左中
   {
     url: "/IoTScreen/leftBottom",
     type: "get",
     response: () => {
-      const a = Mock.mock({
+      const data = Mock.mock({
         success: true,
         data: {
           "list|20": [
@@ -75,12 +56,28 @@ export default [
               "deviceId": "6c512d754bbcd6d7cd86abce0e0cac58",
               "gatewayno|+1": 10000,
               "onlineState|1": [1],
-
             },
           ],
         },
       });
-      return a;
+      return data;
+    },
+  },
+  // 左下
+  {
+    url: "/IoTScreen/countDeviceNum",
+    type: "get",
+    response: () => {
+      const data = Mock.mock({
+        success: true,
+        data: {
+          alarmNum: "@integer(1, 600)",
+          offlineNum: "@integer(0, 30)",
+          totalNum: 480,
+        },
+      }).data;
+      data.onlineNum = data.totalNum - data.offlineNum;
+      return { success: true, data };
     },
   },
   // 右上
@@ -108,37 +105,18 @@ export default [
     url: "/IoTScreen/rightCenter",
     type: "get",
     response: () => {
-      // const num = Mock.mock({ "list|80": [{ value: "@integer(50,1000)", name: "@city()" }] }).list;
-      //   console.log("rightCenter",num);
-      const newNum: any = [];
-
-      newNum.push({
-        value: "27.8",
-        name: "温度",
-      }, {
-        value: "34.7",
-        name: "湿度",
-      }, {
-        value: "109",
-        name: "光照",
-      }, {
-        value: "22",
-        name: "空气质量",
-      }, {
-        value: "57.6",
-        name: "噪音",
-      }, {
-        value: "736.6",
-        name: "二氧化碳浓度",
-      });
-      // const arr = newNum.sort((a: any, b: any) => {
-      //   return b.value - a.value;
-      // });
-      const a = {
+      const data = {
         success: true,
-        data: newNum,
+        data: [
+          { value: "27.8", name: "温度" },
+          { value: "34.7", name: "湿度" },
+          { value: "109", name: "光照" },
+          { value: "22", name: "空气质量" },
+          { value: "57.6", name: "噪音" },
+          { value: "736.6", name: "二氧化碳浓度" },
+        ],
       };
-      return a;
+      return data;
     },
   },
   // 红灯数据提示图
@@ -146,53 +124,52 @@ export default [
     url: "/IoTScreen/rightBottom",
     type: "get",
     response: () => {
-      const a = Mock.mock({
+      const data = Mock.mock({
         success: true,
         data: {
-          "list|40": [{
-            "alertdetail": "有车辆闯红灯",
-            "alertname|1": ["闯红灯警告", "车速过快报警"],
-            "alertvalue": "@float(60, 200)",
-            "createtime": "2022-11-05  @datetime('HH:mm:ss')",
-            "deviceid": null,
-            "gatewayno|+1": 10000,
-            "phase": "A1",
-            // 车牌信息
-            "sbInfo|1": "@csentence(10,18)",
-            "terminalno": "闽A·@integer(00000, 99999)",
-            "provinceName": "福建省",
-            "cityName": "厦门市",
-            "countyName": "@county()",
-          }],
-
+          "list|40": [
+            {
+              "alertdetail": "有车辆闯红灯",
+              "alertname|1": ["闯红灯警告", "车速过快报警"],
+              "alertvalue": "@float(60, 200)",
+              "createtime": "2022-11-05  @datetime('HH:mm:ss')",
+              "deviceid": null,
+              "gatewayno|+1": 10000,
+              "phase": "A1",
+              // 车牌信息
+              "sbInfo|1": "@csentence(10,18)",
+              "terminalno": "闽A·@integer(00000, 99999)",
+              "provinceName": "福建省",
+              "cityName": "厦门市",
+              "countyName": "@county()",
+            },
+          ],
         },
       });
-      return a;
+      return data;
     },
   },
   {
     url: "/IoTScreen/installationPlan",
     type: "get",
     response: () => {
-      const num = RandomNumBoth(26, 32);
-      const a = Mock.mock({
+      const num = randomNumBoth(26, 32);
+      const data = Mock.mock({
         [`category|${num}`]: ["@city()"],
         [`barData|${num}`]: ["@integer(10, 100)"],
       });
       const lineData = [];
       const rateData = [];
-      for (let index = 0; index < num; index++) {
-        const lineNum = Mock.mock("@integer(0, 100)") + a.barData[index];
+      for (let i = 0; i < num; i++) {
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+        const lineNum = Mock.mock("@integer(0, 100)") + data.barData[i];
         lineData.push(lineNum);
-        const rate = a.barData[index] / lineNum;
+        const rate = data.barData[i] / lineNum;
         rateData.push((rate * 100).toFixed(0));
       }
-      a.lineData = lineData;
-      a.rateData = rateData;
-      return {
-        success: true,
-        data: a,
-      };
+      data.lineData = lineData;
+      data.rateData = rateData;
+      return { success: true, data };
     },
   },
   {
@@ -200,9 +177,8 @@ export default [
     type: "get",
     response: (options: any) => {
       const params = parameteUrl(options.url);
-      // 不是中国的时候
       if (params.regionCode && !["china"].includes(params.regionCode)) {
-        const a = Mock.mock({
+        const data = Mock.mock({
           success: true,
           data: {
             "dataList|100": [
@@ -211,12 +187,12 @@ export default [
                 value: "@integer(1, 1000)",
               },
             ],
-            "regionCode": params.regionCode, // -代表中国
+            "regionCode": params.regionCode,
           },
         });
-        return a;
+        return data;
       } else {
-        const a = Mock.mock({
+        const data = Mock.mock({
           success: true,
           data: {
             "dataList|12": [
@@ -228,9 +204,8 @@ export default [
             "regionCode": "china",
           },
         });
-        // 去重
-        a.data.dataList = ArrSet(a.data.dataList, "name");
-        return a;
+        data.data.dataList = removeDuplicates(data.data.dataList, "name");
+        return data;
       }
     },
   },

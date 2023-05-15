@@ -1,24 +1,24 @@
 /**
- * * 存储本地会话数据
- * @param k 键名
- * @param v 键值（无需stringiiy）
- * @returns RemovableRef
- */
-export const setLocalStorage = <T>(k: string, v: T) => {
+     * Stores data in local storage.
+     * @param key The key name.
+     * @param value The value to store (no need to stringify).
+     * @returns A removable reference.
+     */
+export const setLocalStorage = <T>(key: string, value: T) => {
   try {
-    window.localStorage.setItem(k, JSON.stringify(v));
+    window.localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
     return false;
   }
 };
 
 /**
- * * 获取本地会话数据
- * @param k 键名
- * @returns any
+ * Retrieves data from local storage.
+ * @param key The key name.
+ * @returns Any data stored under the given key.
  */
-export const getLocalStorage = (k: string) => {
-  const item = window.localStorage.getItem(k);
+export const getLocalStorage = (key: string) => {
+  const item = window.localStorage.getItem(key);
   try {
     return item ? JSON.parse(item) : item;
   } catch (err) {
@@ -27,33 +27,34 @@ export const getLocalStorage = (k: string) => {
 };
 
 /**
- * * 清除本地会话数据
- * @param name
+ * Clears data from local storage.
+ * @param name The name of the data to clear.
  */
 export const clearLocalStorage = (name: string) => {
   window.localStorage.removeItem(name);
 };
 
 /**
- * * 存储临时会话数据
- * @param k 键名
- * @param v 键值
- * @returns RemovableRef
+ * Stores data in session storage.
+ * @param key The key name.
+ * @param value The value to store.
+ * @returns A removable reference.
  */
-export const setSessionStorage = <T>(k: string, v: T) => {
+export const setSessionStorage = <T>(key: string, value: T) => {
   try {
-    window.sessionStorage.setItem(k, JSON.stringify(v));
+    window.sessionStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
     return false;
   }
 };
 
 /**
- * * 获取临时会话数据
- * @returns any
+ * Retrieves data from session storage.
+ * @param key The key name.
+ * @returns Any data stored under the given key.
  */
-export const getSessionStorage: (k: string) => any = (k: string) => {
-  const item = window.sessionStorage.getItem(k);
+export const getSessionStorage: (key: string) => any = (key: string) => {
+  const item = window.sessionStorage.getItem(key);
   try {
     return item ? JSON.parse(item) : item;
   } catch (err) {
@@ -62,9 +63,9 @@ export const getSessionStorage: (k: string) => any = (k: string) => {
 };
 
 /**
- * * 清除本地会话数据
- * @param name
+ * Clears data from session storage.
+ * @param name The name of the data to clear.
  */
-export const clearSessioStorage = (name: string) => {
+export const clearSessionStorage = (name: string) => {
   window.sessionStorage.removeItem(name);
 };

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useSettingStore } from "~/stores/index";
+import { useSettingStore } from "~/stores";
 
 const isScaleRadio = ref(false);
 const leftBottomRadio = ref(true);
@@ -17,8 +17,6 @@ const init = () => {
   rightBottomRadio.value = indexConfig.value.rightBottomSwiper;
 };
 init();
-const handleClose = () => {};
-
 const cancelClick = () => {
   settingStore.setSettingShow(false);
 };
@@ -29,11 +27,8 @@ const confirmClick = () => {
 const isScaleChange = (flag: boolean) => {
   settingStore.setIsScale(flag);
 };
-const radioChange = (blag: boolean) => {
-  settingStore.setIsScale(blag);
-  // this.$store.commit('setting/updateSwiper', { val, type })
-};
-const indexRadioChange = (flag: boolean) => {
+
+const indexRadioChange = () => {
   settingStore.setIndexConfig({
     leftBottomSwiper: leftBottomRadio.value, // 左轮播
     rightBottomSwiper: rightBottomRadio.value, // 右下轮播
@@ -152,7 +147,7 @@ const indexRadioChange = (flag: boolean) => {
     border-radius: 2px;
     background: #0072ff;
     position: absolute;
-    left: 0px;
+    left: 0;
   }
 }
 .setting_item {

@@ -2,6 +2,19 @@
 import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import type { CSSProperties, PropType } from "vue";
 
+interface IAutoScale {
+  x?: boolean;
+  y?: boolean;
+}
+
+interface IState {
+  originalWidth: string | number;
+  originalHeight: string | number;
+  width?: string | number;
+  height?: string | number;
+  observer: null | MutationObserver;
+}
+
 const props = defineProps({
   width: {
     type: [String, Number] as PropType<string | number>,
@@ -20,7 +33,7 @@ const props = defineProps({
     default: true,
   },
   delay: {
-    type: Number as PropType<number>,
+    type: Number,
     default: 500,
   },
   boxStyle: {
@@ -31,51 +44,6 @@ const props = defineProps({
     type: Object as PropType<CSSProperties>,
     default: () => ({}),
   },
-});
-
-/**
- * 防抖函数
- * @param {Function} fn
- * @param {number} delay
- * @returns {() => void}
- */
-function debounce(fn: Function, delay: number): () => void {
-  // let timer: NodeJS.Timer;
-  let timer: any;
-  return function (...args: any[]): void {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(
-      () => {
-        // typeof fn === "function" && fn.apply(null, args);
-        typeof fn === "function" && fn(...args);
-        clearTimeout(timer);
-      },
-      delay > 0 ? delay : 100,
-    );
-  };
-}
-
-interface IState {
-  originalWidth: string | number;
-  originalHeight: string | number;
-  width?: string | number;
-  height?: string | number;
-  observer: null | MutationObserver;
-}
-type IAutoScale =
-  | boolean
-  | {
-    x?: boolean;
-    y?: boolean;
-  };
-const state = reactive<IState>({
-  width: 0,
-  height: 0,
-  originalWidth: 0,
-  originalHeight: 0,
-  observer: null,
 });
 
 const styles: Record<string, CSSProperties> = {
@@ -97,41 +65,47 @@ const styles: Record<string, CSSProperties> = {
   },
 };
 
+const state = reactive<IState>({
+  width: 0,
+  height: 0,
+  originalWidth: 0,
+  originalHeight: 0,
+  observer: null,
+});
+
 const screenWrapper = ref<HTMLElement>();
 const box = ref<HTMLElement>();
 
-/**
- * 初始化大屏容器宽高
- */
-const initSize = () => {
-  return new Promise<void>((resolve) => {
-    box.value!.scrollLeft = 0;
-    box.value!.scrollTop = 0;
-    nextTick(() => {
-      // region 获取大屏真实尺寸
-      if (props.width && props.height) {
-        state.width = props.width;
-        state.height = props.height;
-      } else {
-        state.width = screenWrapper.value?.clientWidth;
-        state.height = screenWrapper.value?.clientHeight;
-      }
-      // endregion
+function debounce(fn: Function, delay: number): () => void {
+  let timer: any;
+  return function (...args: any[]): void {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      typeof fn === "function" && fn(...args);
+      clearTimeout(timer);
+    }, delay > 0 ? delay : 100);
+  };
+}
 
-      // region 获取画布尺寸
-      if (!state.originalHeight || !state.originalWidth) {
-        state.originalWidth = window.screen.width;
-        state.originalHeight = window.screen.height;
-      }
-      // endregion
-      resolve();
-    });
-  });
+const initSize = async () => {
+  box.value!.scrollLeft = 0;
+  box.value!.scrollTop = 0;
+  await nextTick();
+  if (props.width && props.height) {
+    state.width = props.width;
+    state.height = props.height;
+  } else {
+    state.width = screenWrapper.value?.clientWidth;
+    state.height = screenWrapper.value?.clientHeight;
+  }
+  if (!state.originalHeight || !state.originalWidth) {
+    state.originalWidth = window.screen.width;
+    state.originalHeight = window.screen.height;
+  }
 };
 
-/**
- * 更新大屏容器宽高
- */
 const updateSize = () => {
   if (state.width && state.height) {
     screenWrapper.value!.style.width = `${state.width}px`;
@@ -141,10 +115,12 @@ const updateSize = () => {
     screenWrapper.value!.style.height = `${state.originalHeight}px`;
   }
 };
+
 const clearScreenWrapperStyle = () => {
   screenWrapper.value!.style.transform = "";
   screenWrapper.value!.style.margin = "";
 };
+
 const autoScale = (scale: number) => {
   if (!props.autoScale) {
     return;
@@ -162,22 +138,18 @@ const autoScale = (scale: number) => {
   }
   screenWrapper.value!.style.margin = `${my}px ${mx}px`;
 };
+
 const updateScale = () => {
-  // 获取真实视口尺寸
   const currentWidth = document.body.clientWidth;
   const currentHeight = document.body.clientHeight;
-  // 获取大屏最终的宽高
   const realWidth = state.width || state.originalWidth;
   const realHeight = state.height || state.originalHeight;
-  // 计算缩放比例
   const widthScale = currentWidth / +realWidth;
   const heightScale = currentHeight / +realHeight;
-  // 若要铺满全屏，则按照各自比例缩放
   if (props.fullScreen) {
     screenWrapper.value!.style.transform = `scale(${widthScale},${heightScale})`;
     return false;
   }
-  // 按照宽高最小比例进行缩放
   const scale = Math.min(widthScale, heightScale);
   autoScale(scale);
 };
@@ -186,65 +158,39 @@ const onResize = debounce(async () => {
   await initSize();
   updateSize();
   updateScale();
-}, props.delay);
-const initMutationObserver = () => {
-  const observer = (state.observer = new MutationObserver(() => {
-    onResize();
-  }));
-  observer.observe(screenWrapper.value!, {
-    attributes: true,
-    attributeFilter: ["style"],
-    attributeOldValue: true,
-  });
-};
+}, props.delay as number);
 
-const clearListener = () => {
-  window.removeEventListener("resize", onResize);
-  // state.observer?.disconnect();
-};
-
-const addListener = () => {
+function addResizeListener() {
   window.addEventListener("resize", onResize);
-  // initMutationObserver();
-};
-onMounted(() => {
-  nextTick(async () => {
-    await initSize();
-    updateSize();
-    updateScale();
-    addListener();
-    // initMutationObserver();
-  });
+}
+function removeResizeListener() {
+  window.removeEventListener("resize", onResize);
+}
+onMounted(async () => {
+  await initSize();
+  updateSize();
+  updateScale();
+  addResizeListener();
 });
+
 onUnmounted(() => {
-  clearListener();
-  // state.observer?.disconnect();
+  removeResizeListener();
 });
-watch(
-  () => props.autoScale,
-  async (newVal: any) => {
-    if (newVal) {
-      onResize();
-      addListener();
-    } else {
-      clearListener();
-      clearScreenWrapperStyle();
-    }
-  },
-);
+
+watch(() => props.autoScale, async (newVal: any) => {
+  if (newVal) {
+    onResize();
+    addResizeListener();
+  } else {
+    removeResizeListener();
+    clearScreenWrapperStyle();
+  }
+});
 </script>
 
 <template>
-  <section
-    ref="box"
-    :style="{ ...styles.box, ...boxStyle }"
-    class="v-screen-box"
-  >
-    <div
-      ref="screenWrapper"
-      :style="{ ...styles.wrapper, ...wrapperStyle }"
-      class="screen-wrapper"
-    >
+  <section ref="box" :style="{ ...styles.box, ...boxStyle }" class="v-screen-box">
+    <div ref="screenWrapper" :style="{ ...styles.wrapper, ...wrapperStyle }" class="screen-wrapper">
       <slot />
     </div>
   </section>

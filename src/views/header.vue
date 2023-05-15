@@ -3,7 +3,7 @@ import { reactive } from "vue";
 import dayjs from "dayjs";
 import type { DateDataType } from "./index.d";
 import { useSettingStore } from "~/stores";
-import settingPng from "~/assets/img/headers/setting.png";
+import settingIcon from "~/assets/img/headers/setting.png";
 
 const dateData = reactive<DateDataType>({
   dateDay: "",
@@ -13,38 +13,36 @@ const dateData = reactive<DateDataType>({
 });
 
 const { setSettingShow } = useSettingStore();
-const weekday = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
-const timeFn = () => {
+const weekdays = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+const updateTime = () => {
   dateData.timing = setInterval(() => {
-    dateData.dateDay = dayjs().format("YYYY-MM-DD hh : mm : ss");
-    dateData.dateWeek = weekday[dayjs().day()];
+    dateData.dateDay = dayjs().format("YYYY-MM-DD hh:mm:ss");
+    dateData.dateWeek = weekdays[dayjs().day()];
   }, 1000);
 };
-timeFn();
+updateTime();
 </script>
 
 <template>
-  <div class="d-flex jc-center title_wrap">
-    <div class="leftBottom" />
-    <div class="rightBottom" />
+  <div class="title-wrap">
+    <div class="left-bottom" />
+    <div class="right-bottom" />
     <div class="light" />
-    <div class="d-flex jc-center">
-      <div class="title">
-        <span class="title-text">智慧交通(2022金砖国家技能发展与技术创新大赛)</span>
-      </div>
+    <div class="title">
+      <span class="title-text">智慧交通(2022金砖国家技能发展与技术创新大赛)</span>
     </div>
     <div class="timers">
       {{ dateData.dateYear }} {{ dateData.dateWeek }} {{ dateData.dateDay }}
 
-      <div class="setting_icon" @click="setSettingShow(true)">
-        <img :src="settingPng" alt="设置">
+      <div class="setting-icon" @click="setSettingShow(true)">
+        <img :src="settingIcon" alt="Settings">
       </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.title_wrap {
+.title-wrap {
   height: 60px;
   background-image: url("../assets/img/top.png");
   background-size: cover;
@@ -61,8 +59,8 @@ timeFn();
     height: 56px;
   }
 
-  .leftBottom,
-  .rightBottom {
+  .left-bottom,
+  .right-bottom {
     position: absolute;
     top: -2px;
     width: 140px;
@@ -70,11 +68,11 @@ timeFn();
     background-image: url("../assets/img/headers/juxing1.png");
   }
 
-  .leftBottom {
+  .left-bottom {
     left: 11%;
   }
 
-  .rightBottom {
+  .right-bottom {
     right: 11%;
     transform: rotate(180deg);
   }
@@ -87,7 +85,7 @@ timeFn();
     display: flex;
     align-items: center;
 
-    .setting_icon {
+    .setting-icon {
       width: 20px;
       height: 20px;
       cursor: pointer;
@@ -99,9 +97,9 @@ timeFn();
     }
   }
 }
+
 .title {
   position: relative;
-  // width: 500px;
   text-align: center;
   background-size: cover;
   color: transparent;
@@ -114,10 +112,10 @@ timeFn();
     letter-spacing: 6px;
     width: 100%;
     background: linear-gradient(
-      92deg,
-      #0072ff 0%,
-      #00eaff 48.8525390625%,
-      #01aaff 100%
+                    92deg,
+                    #0072ff 0%,
+                    #00eaff 48.8525390625%,
+                    #01aaff 100%
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
