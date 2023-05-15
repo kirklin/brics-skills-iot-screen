@@ -1,6 +1,5 @@
+import type { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import axios from "axios";
-
-import type { AxiosRequestConfig, AxiosResponse } from "axios";
 import UtilVar from "../config/UtilVar";
 import { RequestEnum, StorageEnum } from "~/enums";
 import { getLocalStorage } from "~/utils";
@@ -10,16 +9,12 @@ const baseUrl = UtilVar.baseUrl;
 export { baseUrl };
 // axios.defaults.withCredentials = true;
 // 添加请求拦截器
-axios.interceptors.request.use((config: AxiosRequestConfig) => {
+axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   // 在发送请求之前做些什么 传token
   const token: any = getLocalStorage(StorageEnum.GB_TOKEN_STORE);
   if (token) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     config.headers.common[RequestEnum.GB_TOKEN_KEY] = token;
   }
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
   config.headers["Content-Type"] = "application/json;charset=utf-8";
 
   return config;
@@ -75,10 +70,9 @@ const isEncryptionParam = (params: Params) => {
 export const GET = async (url: string, params: Params): Promise<any> => {
   try {
     params = isEncryptionParam(params);
-    const data = await axios.get(`${baseUrl}${url}`, {
+    return await axios.get(`${baseUrl}${url}`, {
       params,
     });
-    return data;
   } catch (error) {
     return error;
   }
@@ -92,10 +86,9 @@ export const GET = async (url: string, params: Params): Promise<any> => {
  */
 export const GETNOBASE = async (url: string, params?: Params): Promise<any> => {
   try {
-    const data = await axios.get(location.pathname + url, {
+    return await axios.get(location.pathname + url, {
       params,
     });
-    return data;
   } catch (error) {
     return error;
   }
